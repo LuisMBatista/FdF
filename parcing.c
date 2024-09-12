@@ -1,7 +1,10 @@
-#include "/home/quack/Documents/FdF/minilibx-linux/mlx.h"
-#include "/home/quack/Documents/FdF/minilibx-linux/mlx_int.h"
-#include "/home/quack/Documents/FdF/libft/libft.h"
-#include "/home/quack/Documents/FdF/getnext/get_next_line.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include "//home/ubuntu/Documents/FdF/minilibx-linux/mlx.h"
+#include "/home/ubuntu/Documents/FdF/minilibx-linux/mlx_int.h"
+#include "/home/ubuntu/Documents/FdF/libft/libft.h"
+#include "/home/ubuntu/Documents/FdF/getnext/get_next_line.h"
+
 
 // - parsing
 //    - check if map is valid
@@ -21,26 +24,3 @@
 // while (i)
 //     While (j)
 //         make_line(i, j, arr[i][j], i, j + 1, arr[i][j + 1])
-int main (void)
-{
-    int fd;
-	char *str;
-    int size;
-    
-    size = 0;
-	fd = open("42.fdf", O_RDONLY);
-	str = get_next_line(fd);
-	while (str != NULL)
-	{
-        size += ft_strlen2(str);
-        free(str);
-        str = get_next_line(fd);
-    }
-    if (size <= 1)
-    {   
-        puts("Map is invalid");
-        return (0);
-    }
-    puts("Map is valid");
-    return (0);
-}

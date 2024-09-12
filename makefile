@@ -1,35 +1,29 @@
-NAME = push_swap
+# Variables
+NAME = fdf
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g3
-SRCS =	*.c 
-OBJS = $(SRCS:.c=.o)
-LIBFT = ../libft/libft.a
-FT_PRINTF = ../ft_printf/libftprintf.a
+MLX_DIR = /home/ubuntu/Documents/FdF/minilibx-linux
+MLX = -L$(MLX_DIR) -lmlx -lGL -lGLU -lX11
+CFLAGS = -Wall -Wextra -Werror
+LDFLAGS = -lmlx -lGL -lGLU -lX11
+SRC_DIR = src
+OBJ_DIR = obj
+SRC = main.c 
+OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 
+# Rules
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(OBJ) -Lmlx_linux -lmlx_Linux -L/home/quack/Documents/FdF/mlx_linux -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(MLX)
 
-%.o: %.c
-	$(CC) -Wall -Wextra -Werror -I/home/quack/Documents/FdF/FdF -Imlx_linux -O3 -c $< -o $@
-
-$(LIBFT):
-	@make -C ../libft
-
-$(FT_PRINTF):
-	@make -C ../ft_printf
+$(OBJ_DIR)/%.o: %.c
+	@mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) -o $@ -c $<
 
 clean:
-	@make -C ../libft clean
-	@make -C ../ft_printf clean
-	rm -f $(OBJS)
+	rm -rf $(OBJ_DIR)
 
 fclean: clean
-	@make -C ../libft fclean
-	@make -C ../ft_printf fclean
 	rm -f $(NAME)
 
 re: fclean all
-
-.PHONY: all clean fclean re

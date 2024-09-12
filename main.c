@@ -1,5 +1,5 @@
-#include "/home/quack/Documents/FdF/minilibx-linux/mlx.h"
-#include "/home/quack/Documents/FdF/minilibx-linux/mlx_int.h"
+#include "/home/ubuntu/Documents/FdF/minilibx-linux/mlx.h"
+#include "/home/ubuntu/Documents/FdF/minilibx-linux/mlx_int.h"
 
 typedef struct	s_data {
 	void	*img;
@@ -37,7 +37,6 @@ int draw_line (void *mlx_connection, void *mlx_win, int beginX, int beginY, int 
 
 int main(void)
 {
-
     void *mlx_win;
     void *mlx_connection;
     t_data img;
