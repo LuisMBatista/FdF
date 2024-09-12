@@ -2,7 +2,7 @@
 NAME = fdf
 CC = cc
 MLX_DIR = /home/ubuntu/Documents/FdF/minilibx-linux
-MLX = -L$(MLX_DIR) -lmlx -lGL -lGLU -lX11
+MLX = -L$(MLX_DIR) -lmlx -lGL -lGLU -lX11 -lXext
 CFLAGS = -Wall -Wextra -Werror
 LDFLAGS = -lmlx -lGL -lGLU -lX11
 SRC_DIR = src

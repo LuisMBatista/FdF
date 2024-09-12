@@ -16,7 +16,7 @@ void	his_mlx_pixel_put(t_data *data, int x, int y, int color)
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
 }
-int draw_line (void *mlx_connection, void *mlx_win, int beginX, int beginY, int endX, int endY, int color, t_data img)
+int draw_line ( int beginX, int beginY, int endX, int endY, int color, t_data img)
 {
 
     int dx = endX - beginX;
@@ -48,10 +48,10 @@ int main(void)
     img.img = mlx_new_image(mlx_connection, 700, 700);
     img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 								&img.endian);
-    draw_line(mlx_connection, mlx_win, 10, 10, 20, 10, 0xFFFFFF, img);
-    draw_line(mlx_connection, mlx_win, 20, 10, 20, 20, 0xFFFFFF, img);
-    draw_line(mlx_connection, mlx_win, 20, 20, 10, 20, 0xFFFFFF, img);
-    draw_line(mlx_connection, mlx_win, 10, 20, 10, 10, 0xFFFFFF, img);
+    draw_line(10, 10, 20, 10, 0xFFFFFF, img);
+    draw_line( 20, 10, 20, 20, 0xFFFFFF, img);
+    draw_line(20, 20, 10, 20, 0xFFFFFF, img);
+    draw_line(10, 20, 10, 10, 0xFFFFFF, img);
 
     mlx_put_image_to_window(mlx_connection, mlx_win, img.img, 0, 0);
     if(!mlx_win)
