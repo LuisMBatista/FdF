@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lumiguel <lumiguel@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: lumiguel <lumiguel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 15:42:18 by lumiguel          #+#    #+#             */
-/*   Updated: 2024/08/26 18:00:40 by lumiguel         ###   ########.fr       */
+/*   Updated: 2024/01/02 13:16:23 by lumiguel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ char	*get_next_line(int fd)
 	}
 	while (buffer[fd][0] || read(fd, buffer[fd], BUFFER_SIZE) > 0)
 	{
-		line = ft_strjoin2(line, buffer[fd]);
+		line = ft_strjoin(line, buffer[fd]);
 		unbuff(buffer[fd]);
-		if (line[ft_strlen2(line) - 1] == '\n')
+		if (line[ft_strlen(line) - 1] == '\n')
 			return (line);
 	}
 	return (line);

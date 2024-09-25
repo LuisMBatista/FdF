@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lumiguel <lumiguel@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: lumiguel <lumiguel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 14:28:33 by lumiguel          #+#    #+#             */
-/*   Updated: 2024/08/26 18:00:46 by lumiguel         ###   ########.fr       */
+/*   Updated: 2024/01/02 13:13:24 by lumiguel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@
 # endif
 
 char	*get_next_line(int fd);
-char	*ft_strjoin2(char *s1, char *s2);
-long	ft_strlen2(char *s);
+char	*ft_strjoin(char *s1, char *s2);
+long	ft_strlen(char *s);
 void	unbuff(char *buff);
 
 #endif

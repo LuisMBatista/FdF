@@ -6,7 +6,7 @@
 /*   By: lumiguel <lumiguel@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 17:40:17 by lumiguel          #+#    #+#             */
-/*   Updated: 2024/05/06 17:33:26 by lumiguel         ###   ########.fr       */
+/*   Updated: 2024/09/17 14:04:05 by lumiguel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,21 +67,21 @@ char	**ft_split(char const *s, char c)
 	}
 	return (lst);
 }
-/*
-int	main(void)
-{
-	char	**array;
-	int		i;
 
-	char	str[20]= "abcdefghj";
-	array = ft_split(str, 'g');
-	i = 0;
-	while (array[i] != NULL)
-	{
-		printf("%s", array[i]);
-		i++;
-	}
-	free(array);
-	return (0);
-}
-*/
+// int	main(void)
+// {
+// 	char	**array;
+// 	int		i;
+
+// 	char	str[20]= "0 2 4 1";
+// 	array = ft_split(str, ' ');
+// 	i = 0;
+// 	while (array[i] != NULL)
+// 	{
+// 		printf("%s", array[i]);
+// 		i++;
+// 	}
+// 	free(array);
+// 	return (0);
+// }
+
