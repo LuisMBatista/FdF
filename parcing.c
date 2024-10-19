@@ -1,41 +1,5 @@
 #include "fdf.h"
 
-int ***map_allocation (int lenght, int height)
-{
-    int ***map;
-    int i;
-    int x;
-
-    i = 0;
-    x = 0;
-    map = (int ***)malloc(sizeof(int **) * height);
-    if (!map)
-    {
-        perror("Error allocating memory for map rows");
-        return NULL;
-    }
-    while (i < height)
-    {
-        map[i] = (int **)malloc(sizeof(int*) * (lenght + 1));
-        while (x < lenght)
-        {
-            map[i][x] = (int *)malloc(sizeof(int) * 3);
-            if (!map[i][x])
-            {
-                perror("Error allocating memory for map columns");
-                while (--x >= 0)
-                    free(map[i][x]);
-                free(map[i]);
-                return NULL;
-            }
-            x++;
-        }
-        x = 0;
-        i++;
-    }
-    return (map);
-}
-
 int	ft_strlen3(const char *s)
 {
 	int	i;
@@ -134,44 +98,34 @@ int ***str_to_int (int length, int height)
     int x;
     int y;
 
-    x = 0;
     y= 0;
     i = 0;
     fd = open("42.fdf", O_RDONLY);
     str = get_next_line(fd);
     map = map_allocation(length, height);
-    while (str != NULL)
+    while (1)
     {
-        while (str[i] != '\0' && str[i] != '\n')
+        x= 0;
+        while (str[i] && str[i] != '\n' && x < length)
         {
             if (str[i] != ' ')
             {
                 map[y][x][0] = x;
                 map[y][x][1] = y;
-                map[y][x][2] = ft_atoi2(str[i]);
+                map[y][x][2] = ft_atoi2(str[i]);  
                 x++;
             }
             i++;
         }
-        x = 0;
+        i = 0;
         y++;
         free(str);
         str = get_next_line(fd);
+        if (!str)
+            break;
     }
     close(fd);
     return (map);
-}
-
-
-void my_mlx_pixel_put(t_data *data, int x, int y, int color)
-{
-    char *dst;
-
-    // Calculate the memory address for the pixel (x, y) in the image's buffer
-    dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-    
-    // Place the color at the calculated address
-    *(unsigned int*)dst = color;
 }
 
 void draw_line(t_data *img, int x0, int y0, int x1, int y1, int color)
@@ -179,18 +133,21 @@ void draw_line(t_data *img, int x0, int y0, int x1, int y1, int color)
     int dx = x1 - x0;
     int dy = y1 - y0;
     int steps = abs(dx) > abs(dy) ? abs(dx) : abs(dy);
-
     float x_increment = dx / (float)steps;
     float y_increment = dy / (float)steps;
+    int i = 0;
 
     float x = x0;
     float y = y0;
-
-    for (int i = 0; i <= steps; i++) {
-        // Use my_mlx_pixel_put to draw on the image buffer
-        my_mlx_pixel_put(img, (int)x, (int)y, color);
+    while (i <= steps) 
+    {
+        if (x >= 0 && x < SCREEN_WIDTH && y >= 0 && y < SCREEN_HEIGHT)
+        {
+            my_mlx_pixel_put(img, (int)x, (int)y, color);
+        }
         x += x_increment;
         y += y_increment;
+        i++;
     }
 }
 
@@ -209,9 +166,11 @@ int main(void)
     length = lenght_validation();
     height = height_check();
     map = str_to_int(length, height);
-    new_map = two_d_map(*map, height, length);
-    zoom = check_zoom(new_map, 600,600);
+    new_map = two_d_map(map, height, length);
+    zoom = check_zoom(new_map, SCREEN_WIDTH, SCREEN_HEIGHT);
+    printf("zoom = %d\n", zoom);
     new_map = zoom_multiplier(new_map, zoom);
+    new_map = centralize_map(new_map, height, length);
     mlx_connection = mlx_init();
     if (!mlx_connection)
         {
@@ -219,7 +178,7 @@ int main(void)
         return (1);
         }
 
-    mlx_win = mlx_new_window(mlx_connection, 600, 600, "Quack");
+    mlx_win = mlx_new_window(mlx_connection, SCREEN_WIDTH, SCREEN_HEIGHT , "Quack");
     if (!mlx_win)
     {
         printf("Error: Failed to create window.\n");
@@ -228,7 +187,7 @@ int main(void)
         return (1);
     }
 
-    img.img = mlx_new_image(mlx_connection, 600, 600);
+    img.img = mlx_new_image(mlx_connection, SCREEN_WIDTH, SCREEN_HEIGHT );
     if (!img.img)
     {
         printf("Error: Failed to create image.\n");
@@ -239,40 +198,19 @@ int main(void)
     }
     img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
     if (!img.addr)
-{
-    printf("Error: Failed to get data address for image.\n");
-    mlx_destroy_image(mlx_connection, img.img);
-    mlx_destroy_window(mlx_connection, mlx_win);
-    mlx_destroy_display(mlx_connection);
-    free(mlx_connection);
-    return (1);
-}
-
-    // Print debugging information
-/*     printf("img.bits_per_pixel = %d\n", img.bits_per_pixel);
-    printf("img.line_length = %d\n", img.line_length);
-    printf("img.endian = %d\n", img.endian);
-    printf("img.addr = %p\n", img.addr);
-    printf("img.img = %p\n", img.img);
- */
-    // Draw the lines
-for (int y = 0; y < height; y++)
-{
-    for (int x = 0; x < length; x++)
     {
-        if (x + 1 < length)
-            draw_line(&img, (int)new_map[y][x][0], (int)new_map[y][x][1], (int)new_map[y][x + 1][0], (int)new_map[y][x + 1][1], 0xFF0000);
-        if (y + 1 < height)
-            draw_line(&img, (int)new_map[y][x][0], (int)new_map[y][x][1], (int)new_map[y + 1][x][0], (int)new_map[y + 1][x][1], 0xFFF000);
+        printf("Error: Failed to get data address for image.\n");
+        mlx_destroy_image(mlx_connection, img.img);
+        mlx_destroy_window(mlx_connection, mlx_win);
+        mlx_destroy_display(mlx_connection);
+        free(mlx_connection);
+        return (1);
     }
-}
-
-// After drawing on the image, put the image to the window
-mlx_put_image_to_window(mlx_connection, mlx_win, img.img, 0, 0);
+    // Draw the lines
+    draw_map(img, new_map, height, length);
+    mlx_put_image_to_window(mlx_connection, mlx_win, img.img, 0, 0);
     mlx_put_image_to_window(mlx_connection, mlx_win, img.img, 0, 0);
     mlx_loop(mlx_connection);
-
-    // Cleanup
     mlx_destroy_window(mlx_connection, mlx_win);
     mlx_destroy_display(mlx_connection);
     free(mlx_connection);

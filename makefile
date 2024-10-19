@@ -24,7 +24,7 @@ LDFLAGS = $(MLX) $(FT_PRINTF) $(FT_GET_NEXT_LINE) $(FT_LIBFT)
 
 SRC_DIR = src
 OBJ_DIR = obj
-SRC = parcing.c  3d_to_2d.c limits_checks.c
+SRC = parcing.c  3d_to_2d.c limits_checks.c allocations.c draw.c
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 
 # Rules
