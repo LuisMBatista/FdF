@@ -6,7 +6,7 @@
 /*   By: lumiguel <lumiguel@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 15:20:16 by lumiguel          #+#    #+#             */
-/*   Updated: 2024/05/06 20:05:02 by lumiguel         ###   ########.fr       */
+/*   Updated: 2024/10/20 10:53:12 by lumiguel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 int	ft_isdigit(int c)
 {
 	if (c >= '0' && c <= '9')
-		return (c);
+		return (1);
 	return (0);
 }

@@ -1,56 +1,71 @@
 #include "fdf.h"
 
-int	ft_strlen3(const char *s)
+int ft_strlen3(const char *s)
 {
-	int	i;
-    int lenght;
+    int i = 0;
+    int length = 0;
 
-	i = 0;
-    lenght = 0;
     while (s[i] != '\0')
     {
-        if (s[i] != ' ' && s[i] != '\n' && s[i] != '\0')
-            lenght++;
-        i++;
+        if (s[i] != ' ' && s[i] != '\n' && s[i] != '-')
+            length++;
+        while (s[i] != '\0' && ft_isdigit(s[i]))
+            i++;
+        if (s[i] == ',')
+            {
+                i++;
+                while (s[i] != ' ')
+                    i++;
+            }
+        if (s[i] != '\0')
+            i++;
     }
-	return (lenght);
+    return length;
 }
-int lenght_validation(void)
+
+int lenght_check(char *argv)
 {
     char *str;
     int lenght;
-    int i;
     int fd;
 
-    fd = open("42.fdf", O_RDONLY);
-    i = 0;
+    fd = open(argv, O_RDONLY);
+    if (fd < 0)
+    {
+        ft_printf("Error opening file");
+        return -1;
+    }
     lenght = 0;
     str = get_next_line(fd);
-    while (str[i] != '\0' && str[i] != '\n')
+    if (str != NULL)
+        lenght = ft_strlen3(str);
+    while (str != NULL)
     {
-        if (str[i] != ' ')
-            lenght++;
-        i++;
-    }
-    while (str !=NULL)
-    {
-        if (lenght != ft_strlen3(str))
-            return (ft_printf("Error: Lenght invalide\n"),0);
         free(str);
         str = get_next_line(fd);
+        if (str != NULL)
+        {
+            int current_len = ft_strlen3(str);
+            if (lenght != current_len)
+            {
+                free(str);
+                close(fd);
+                exit(printf("Error: Length invalid\n"));
+            }
+        }
     }
     close(fd);
-    return (lenght);
+    return lenght;
 }
 
-int height_check(void)
+int height_check(char *argv)
 {
     char *str;
     int height;
     int fd;
 
     height = 0;
-    fd = open("42.fdf", O_RDONLY);
+    fd = open(argv, O_RDONLY);
     str = get_next_line(fd);
     while (str != NULL)
     {
@@ -77,19 +92,19 @@ int	ft_atoi2(char str)
 }
 
 
-int check_zoom(float ***map, int img_lenght, int img_height)
+int check_zoom(float ***map, int img_lenght, int img_height, char *argv)
 {
     int lenght;
     int height;
 
-    lenght = lenght_multiplier(map, img_lenght);
-    height = height_multiplier(map, img_height);
+    lenght = lenght_multiplier(map, img_lenght, argv);
+    height = height_multiplier(map, img_height, argv);
     if (lenght <= height)
         return(lenght);
     return(height);
 }
 
-int ***str_to_int (int length, int height)
+int ***str_to_int (int length, int height, char *argv)
 {
     int fd;
     char *str;
@@ -100,8 +115,9 @@ int ***str_to_int (int length, int height)
 
     y= 0;
     i = 0;
-    fd = open("42.fdf", O_RDONLY);
+    fd = open(argv, O_RDONLY);
     str = get_next_line(fd);
+    printf("str = %s\n", str);
     map = map_allocation(length, height);
     while (1)
     {
@@ -151,80 +167,3 @@ void draw_line(t_data *img, int x0, int y0, int x1, int y1, int color)
     }
 }
 
-int main(void)
-{
-    int length;
-    int height;
-    int ***map;
-    float ***new_map;
-    void *mlx_win;
-    void *mlx_connection;
-    t_data img;
-    int zoom;
-
-    zoom = 0;
-    length = lenght_validation();
-    height = height_check();
-    map = str_to_int(length, height);
-    new_map = two_d_map(map, height, length);
-    zoom = check_zoom(new_map, SCREEN_WIDTH, SCREEN_HEIGHT);
-    printf("zoom = %d\n", zoom);
-    new_map = zoom_multiplier(new_map, zoom);
-    new_map = centralize_map(new_map, height, length);
-    mlx_connection = mlx_init();
-    if (!mlx_connection)
-        {
-        printf("Error: Failed to initialize mlx connection.\n");
-        return (1);
-        }
-
-    mlx_win = mlx_new_window(mlx_connection, SCREEN_WIDTH, SCREEN_HEIGHT , "Quack");
-    if (!mlx_win)
-    {
-        printf("Error: Failed to create window.\n");
-        mlx_destroy_display(mlx_connection);
-        free(mlx_connection);
-        return (1);
-    }
-
-    img.img = mlx_new_image(mlx_connection, SCREEN_WIDTH, SCREEN_HEIGHT );
-    if (!img.img)
-    {
-        printf("Error: Failed to create image.\n");
-        mlx_destroy_window(mlx_connection, mlx_win);
-        mlx_destroy_display(mlx_connection);
-        free(mlx_connection);
-        return (1);
-    }
-    img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-    if (!img.addr)
-    {
-        printf("Error: Failed to get data address for image.\n");
-        mlx_destroy_image(mlx_connection, img.img);
-        mlx_destroy_window(mlx_connection, mlx_win);
-        mlx_destroy_display(mlx_connection);
-        free(mlx_connection);
-        return (1);
-    }
-    // Draw the lines
-    draw_map(img, new_map, height, length);
-    mlx_put_image_to_window(mlx_connection, mlx_win, img.img, 0, 0);
-    mlx_put_image_to_window(mlx_connection, mlx_win, img.img, 0, 0);
-    mlx_loop(mlx_connection);
-    mlx_destroy_window(mlx_connection, mlx_win);
-    mlx_destroy_display(mlx_connection);
-    free(mlx_connection);
-
-    // Free new_map memory (if dynamically allocated)
-    for (int i = 0; i < height; i++)
-    {
-        for (int j = 0; j < length; j++)
-        {
-            free(new_map[i][j]);
-        }
-        free(new_map[i]);
-    }
-    free(new_map);
-
-    return (0);
-}
