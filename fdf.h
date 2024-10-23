@@ -64,5 +64,6 @@ int key_press(int keycode, t_data *img);
 int base_value_central( int minimum);
 void free_map_allocation(float ***map, int height, int lenght);
 void free_map(int ***map, int height, int lenght);
+ void (arg_validation(int argc, char **argv));
 
 #endif

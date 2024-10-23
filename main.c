@@ -6,50 +6,11 @@
 /*   By: lumiguel <lumiguel@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 11:43:54 by lumiguel          #+#    #+#             */
-/*   Updated: 2024/10/23 15:45:23 by lumiguel         ###   ########.fr       */
+/*   Updated: 2024/10/23 16:14:06 by lumiguel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "fdf.h"
-
-
-void	free_str_array(char **array)
-{
-	int	i;
-
-	i = 0;
-	while (array[i])
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
-}
-int	ft_strcmp(char *s1, char *s2)
-{
-	while (*s1 && *s1 == *s2)
-	{
-		s1++;
-		s2++;
-	}
-	return (*s1 - *s2);
-}
-
-int	arg_validity(char *argv)
-{
-	char	**file;
-	int		i;
-
-	file = ft_split(argv, '.');
-	i = 0;
-	while (file[i])
-		i++;
-	if (!file[1] || i > 2)
-		return (free_str_array(file), 0);
-	if (ft_strcmp(file[1], "fdf") == 0)
-		return (free_str_array(file), 1);
-	return (free_str_array(file), 0);
-}
 
 int main(int argc, char **argv)
 {
@@ -57,16 +18,8 @@ int main(int argc, char **argv)
     float ***new_map;
     t_data *img;
     float zoom;
-    int fd;
 
-    fd = open(argv[1], O_RDONLY);
-    if (arg_validity(argv[1]) == 0 || fd < 0 || argc != 2)
-    {
-        ft_printf("Error: Invalid file.\n");
-        exit (0);
-    }
-    close(fd);
-
+    arg_validation(argc, argv);
     img = malloc(sizeof(t_data));
     if (!img)
     {
