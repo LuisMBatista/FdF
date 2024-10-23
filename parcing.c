@@ -7,14 +7,14 @@ int ft_strlen3(const char *s)
 
     while (s[i] != '\0')
     {
-        if (s[i] != ' ' && s[i] != '\n' && s[i] != '-')
+        if (s[i] != ' ' && s[i] != '\n' && ft_isdigit(s[i]))
             length++;
-        while (s[i] != '\0' && ft_isdigit(s[i]))
+        while (s[i] != '\0' && ft_isdigit(s[i]) )
             i++;
         if (s[i] == ',')
             {
                 i++;
-                while (s[i] != ' ')
+                while (s[i] != ' ' && s[i] != '\n')
                     i++;
             }
         if (s[i] != '\0')
@@ -28,6 +28,7 @@ int lenght_check(char *argv)
     char *str;
     int lenght;
     int fd;
+    int current_len;
 
     fd = open(argv, O_RDONLY);
     if (fd < 0)
@@ -45,12 +46,12 @@ int lenght_check(char *argv)
         str = get_next_line(fd);
         if (str != NULL)
         {
-            int current_len = ft_strlen3(str);
+            current_len = ft_strlen3(str);
             if (lenght != current_len)
             {
                 free(str);
                 close(fd);
-                exit(printf("Error: Length invalid\n"));
+                exit(ft_printf("Error: Length invalid\n"));
             }
         }
     }
@@ -92,19 +93,19 @@ int	ft_atoi2(char str)
 }
 
 
-int check_zoom(float ***map, int img_lenght, int img_height, char *argv)
+float check_zoom(float ***map, int img_lenght, int img_height, t_data *img)
 {
-    int lenght;
-    int height;
+    float lenght;
+    float height;
 
-    lenght = lenght_multiplier(map, img_lenght, argv);
-    height = height_multiplier(map, img_height, argv);
+    lenght = lenght_multiplier(map, img_lenght, img);
+    height = height_multiplier(map, img_height, img);
     if (lenght <= height)
         return(lenght);
     return(height);
 }
 
-int ***str_to_int (int length, int height, char *argv)
+int ***str_to_int(int length, int height, char *argv)
 {
     int fd;
     char *str;
@@ -113,35 +114,42 @@ int ***str_to_int (int length, int height, char *argv)
     int x;
     int y;
 
-    y= 0;
+    y = 0;
     i = 0;
     fd = open(argv, O_RDONLY);
-    str = get_next_line(fd);
-    printf("str = %s\n", str);
     map = map_allocation(length, height);
-    while (1)
+    while (y < height)
     {
-        x= 0;
+        str = get_next_line(fd);
+        if (str == NULL)
+            break;
+        x = 0;
         while (str[i] && str[i] != '\n' && x < length)
         {
-            if (str[i] != ' ')
+            if (str[i] == ',')
             {
-                map[y][x][0] = x;
-                map[y][x][1] = y;
-                map[y][x][2] = ft_atoi2(str[i]);  
+                i++;
+                while (str[i] != ' ' && str[i] != '\n')
+                    i++;
+            }
+            else if (str[i] == ' ')  
+                i++;
+            else
+            {
+                map[y][x][0] = x; 
+                map[y][x][1] = y;  
+                map[y][x][2] = ft_atoi(&str[i]);
+                while (str[i] != ' ' && str[i] != ',' && str[i] != '\n' && str[i] != '\0')
+                    i++;
                 x++;
             }
-            i++;
         }
         i = 0;
         y++;
         free(str);
-        str = get_next_line(fd);
-        if (!str)
-            break;
     }
     close(fd);
-    return (map);
+    return map;
 }
 
 void draw_line(t_data *img, int x0, int y0, int x1, int y1, int color)

@@ -1,19 +1,33 @@
 #include "/home/ubuntu/Documents/FdF/fdf.h"
 #include <math.h>
 
-float ***centralize_map(float ***map, int height, int lenght)
+int base_value_central( int minimum)
+{
+    int x;
+
+    x = 0;
+    while (minimum++ <= 0)
+        x++;
+    return (x);
+}
+float ***centralize_map(float ***map, t_data *img)
 {
     int x;
     int y;
+    int lenght_min;
+    int height_min;
+    
 
     y = 0;
-    while (y < height)
+    lenght_min =  base_value_central(check_lenght_min(map, img));
+    height_min = base_value_central(check_height_min(map, img));
+    while (y < img->map_height)
     {
         x = 0;
-        while (x < lenght)
+        while (x < img->map_length)
         {
-            map[y][x][0] = map[y][x][0] + (SCREEN_WIDTH / 2);
-            map[y][x][1] = map[y][x][1] + (SCREEN_HEIGHT / 2);
+            map[y][x][0] = map[y][x][0] + (lenght_min + 10);
+            map[y][x][1] = map[y][x][1] + (height_min + 10);
             x++;
         }
         y++;
@@ -39,6 +53,6 @@ float ***two_d_map(int ***map, int height, int lenght)
         }
         y++;
     }
-    free(map);
+    free_map(map, height, lenght);
     return (new_map);
 }

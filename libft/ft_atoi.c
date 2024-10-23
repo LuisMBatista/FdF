@@ -6,7 +6,7 @@
 /*   By: lumiguel <lumiguel@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 11:27:25 by lumiguel          #+#    #+#             */
-/*   Updated: 2024/05/08 17:56:16 by lumiguel         ###   ########.fr       */
+/*   Updated: 2024/10/21 12:24:35 by lumiguel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ long	ft_atoi(const char *str)
 	}
 	else if (str[i] == '+')
 		i++;
-	while (str[i] != '\0' && ft_isdigit(str[i]))
+	while (str[i] != '\0' && ft_isdigit(str[i]) && str[i] != ',')
 		nbr = (nbr * 10) + (str[i++] - '0');
 	if (isneg == 1)
 		return (-nbr);
