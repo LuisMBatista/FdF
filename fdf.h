@@ -71,5 +71,6 @@ void read_and_fill_map(int fd, int ***map, int length, int height);
 void process_line(char *str, int ***map, int y, int length);
 void skip_comma(char *str, int *i);
 void skip_to_next_value(char *str, int *i);
+int close_window(t_data *img);
 
 #endif

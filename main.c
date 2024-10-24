@@ -6,7 +6,7 @@
 /*   By: lumiguel <lumiguel@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 11:43:54 by lumiguel          #+#    #+#             */
-/*   Updated: 2024/10/24 10:37:08 by lumiguel         ###   ########.fr       */
+/*   Updated: 2024/10/24 13:13:02 by lumiguel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int main(int argc, char **argv)
     free_map_allocation(new_map, img->map_height, img->map_length); 
     mlx_put_image_to_window(img->mlx_connection, img->mlx_win, img->img, 0, 0);
     mlx_key_hook(img->mlx_win, key_press, img);
+    mlx_hook(img->mlx_win, 17, 0, close_window, img);
     mlx_loop(img->mlx_connection);
     free(img);
 

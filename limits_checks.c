@@ -6,7 +6,7 @@
 /*   By: lumiguel <lumiguel@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 10:49:15 by lumiguel          #+#    #+#             */
-/*   Updated: 2024/10/24 10:51:09 by lumiguel         ###   ########.fr       */
+/*   Updated: 2024/10/24 12:15:45 by lumiguel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,23 +43,51 @@ float height_multiplier(float ***map, int map_height, t_data *img)
     return(multiplier); 
 }
 
-float ***zoom_multiplier(float ***map, float zoom, t_data *img)
+int lenght_check(char *argv)
 {
-    int y;
-    int x;
+    char *str;
+    int lenght;
+    int fd;
 
-    y = 0;
-    while (y < img->map_height)
+    fd = open(argv, O_RDONLY);
+    lenght = 0;
+    str = get_next_line(fd);
+    if (str != NULL)
+        lenght = ft_strlen3(str);
+    while (str != NULL)
     {
-        x = 0;
-        while(x < img->map_length)
+        free(str);
+        str = get_next_line(fd);
+        if (str != NULL)
         {
-            map[y][x][0] = map[y][x][0] * (zoom - 0.1); //ARRANJAR ZOOM ORIGINAL 
-            map[y][x][1] = map[y][x][1] * (zoom - 0.1);
-            x++;
+            if (lenght != ft_strlen3(str))
+            {
+                free(str);
+                close(fd);
+                exit(ft_printf("Error: Length invalid\n"));
+            }
         }
-        y++;
     }
-    return (map);
+    close(fd);
+    return lenght;
+}
+
+int height_check(char *argv)
+{
+    char *str;
+    int height;
+    int fd;
+
+    height = 0;
+    fd = open(argv, O_RDONLY);
+    str = get_next_line(fd);
+    while (str != NULL)
+    {
+        height++;
+        free(str);
+        str = get_next_line(fd);
+    }
+    close(fd);
+    return (height);
 }
 

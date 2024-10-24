@@ -14,7 +14,7 @@ FT_PRINTF = -L$(FT_PRINTF_DIR) -lftprintf
 FT_GET_NEXT_LINE = -L$(FT_GET_NEXT_LINE_DIR) -lgetnext
 FT_LIBFT = -L$(FT_LIBFT_DIR) -lft
 
-CFLAGS = -g3 -Wall -Wextra -Werror \
+CFLAGS = -g3 -Wall -Wextra -Werror\
          -I$(MLX_DIR) \
          -I$(FT_PRINTF_DIR) \
          -I$(FT_GET_NEXT_LINE_DIR) \
@@ -24,9 +24,10 @@ LDFLAGS = $(MLX) $(FT_PRINTF) $(FT_GET_NEXT_LINE) $(FT_LIBFT)
 
 SRC_DIR = src
 OBJ_DIR = obj
-SRC = parcing.c  3d_to_2d.c limits_checks.c allocations.c draw.c main.c \
-	  key_presses.c file_validation.c allocation_img.c \
-	  mlx_activity.c map_limits.c map_transcribe.c
+SRC = 3d_to_2d.c allocation_img.c allocations.c draw.c \
+      file_validation.c key_presses.c limits_checks.c main.c \
+      map_limits.c mlx_activity.c parcing_components.c parcing.c \
+      support.c zooms.c
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 
 # Rules
