@@ -6,7 +6,7 @@
 /*   By: lumiguel <lumiguel@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 11:43:54 by lumiguel          #+#    #+#             */
-/*   Updated: 2024/10/23 16:14:06 by lumiguel         ###   ########.fr       */
+/*   Updated: 2024/10/23 21:39:25 by lumiguel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int main(int argc, char **argv)
         ft_printf("Error: Failed to allocate memory for img.\n");
         exit (0);
     }
-    zoom = 0;
     img->map_length = lenght_check(argv[1]);
     img->map_height = height_check(argv[1]);
     map = str_to_int(img->map_length, img->map_height, argv[1]);
