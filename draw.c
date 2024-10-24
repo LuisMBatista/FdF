@@ -6,62 +6,89 @@
 /*   By: lumiguel <lumiguel@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 10:48:51 by lumiguel          #+#    #+#             */
-/*   Updated: 2024/10/24 12:06:56 by lumiguel         ###   ########.fr       */
+/*   Updated: 2024/10/24 18:29:36 by lumiguel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "/home/ubuntu/Documents/FdF/fdf.h"
+#include "fdf.h"
 
-void draw_map(t_data img, float ***new_map,  int height, int length)
+void	draw_horizontal_lines(t_data *img, float ***new_map, int y, int length)
 {
-    int x;
-    int y;
+	t_point		p1;
+	t_point		p2;
+	int			x;
 
-    y = 0;
-    while (y < height)
-    {
-        x = 0;
-        while (x < length)
-        {
-            if (x < length - 1)
-                draw_line(&img, new_map[y][x][0], new_map[y][x][1], new_map[y][x + 1][0], new_map[y][x + 1][1], 0x00FF00);
-            if (y < height - 1)
-                draw_line(&img, new_map[y][x][0], new_map[y][x][1], new_map[y + 1][x][0], new_map[y + 1][x][1], 0x00FF00);
-            x++;
-        }
-        y++;
-    }
+	x = 0;
+	while (x < length - 1)
+	{
+		p1.x = new_map[y][x][0];
+		p1.y = new_map[y][x][1];
+		p2.x = new_map[y][x + 1][0];
+		p2.y = new_map[y][x + 1][1];
+		draw_line(img, p1, p2, 0x00FF00);
+		x++;
+	}
 }
 
-void my_mlx_pixel_put(t_data *data, int x, int y, int color)
+void	draw_vertical_lines(t_data *img, float ***new_map, int x, int height)
 {
-    char *dst;
+	t_point		p1;
+	t_point		p2;
+	int			y;
 
-    // Calculate the memory address for the pixel (x, y) in the image's buffer
-    dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-    
-    // Place the color at the calculated address
-    *(unsigned int*)dst = color;
+	y = 0;
+	while (y < height - 1)
+	{
+		p1.x = new_map[y][x][0];
+		p1.y = new_map[y][x][1];
+		p2.x = new_map[y + 1][x][0];
+		p2.y = new_map[y + 1][x][1];
+		draw_line(img, p1, p2, 0x00FF00);
+		y++;
+	}
 }
-void draw_line(t_data *img, int x0, int y0, int x1, int y1, int color)
-{
-    int dx = x1 - x0;
-    int dy = y1 - y0;
-    int steps = abs(dx) > abs(dy) ? abs(dx) : abs(dy);
-    float x_increment = dx / (float)steps;
-    float y_increment = dy / (float)steps;
-    int i = 0;
 
-    float x = x0;
-    float y = y0;
-    while (i <= steps) 
-    {
-        if (x >= 0 && x < SCREEN_WIDTH && y >= 0 && y < SCREEN_HEIGHT)
-        {
-            my_mlx_pixel_put(img, (int)x, (int)y, color);
-        }
-        x += x_increment;
-        y += y_increment;
-        i++;
-    }
+void	draw_map(t_data img, float ***new_map, int height, int length)
+{
+	int		x;
+	int		y;
+
+	y = 0;
+	while (y < height)
+	{
+		draw_horizontal_lines(&img, new_map, y, length);
+		y++;
+	}
+	x = 0;
+	while (x < length)
+	{
+		draw_vertical_lines(&img, new_map, x, height);
+		x++;
+	}
+}
+
+void	draw_line(t_data *img, t_point p0, t_point p1, int color)
+{
+	t_draw		draw;
+	int			steps;
+	t_increment	inc;
+	float		x;
+	float		y;
+
+	draw.x_draw = p1.x - p0.x;
+	draw.y_draw = p1.y - p0.y;
+	steps = calculate_steps(draw.x_draw, draw.y_draw);
+	inc = calculate_increments(draw.x_draw, draw.y_draw, steps);
+	x = p0.x;
+	y = p0.y;
+	while (steps >= 0)
+	{
+		if (x >= 0 && x < SCREEN_WIDTH && y >= 0 && y < SCREEN_HEIGHT)
+		{
+			my_mlx_pixel_put(img, (int)x, (int)y, color);
+		}
+		x += inc.x_increment;
+		y += inc.y_increment;
+		steps--;
+	}
 }
