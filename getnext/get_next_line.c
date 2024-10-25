@@ -6,7 +6,7 @@
 /*   By: lumiguel <lumiguel@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 15:42:18 by lumiguel          #+#    #+#             */
-/*   Updated: 2024/10/21 13:48:21 by lumiguel         ###   ########.fr       */
+/*   Updated: 2024/10/25 08:23:59 by lumiguel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 	{
 		while (quack < BUFFER_SIZE)
-			buffer[quack++] = 0; 
+			buffer[quack++] = 0;
 		return (NULL);
 	}
 	while (buffer[0] || read(fd, buffer, BUFFER_SIZE) > 0)

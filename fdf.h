@@ -6,32 +6,29 @@
 /*   By: lumiguel <lumiguel@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 16:51:51 by lumiguel          #+#    #+#             */
-/*   Updated: 2024/10/24 18:26:41 by lumiguel         ###   ########.fr       */
+/*   Updated: 2024/10/25 08:20:24 by lumiguel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
-#define M_PI 3.14159265358979323846
-#define FDF_H
-#include <fcntl.h>
-#include <stdarg.h>
-#include <stddef.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <strings.h>
-#include <unistd.h>
-#include <math.h>
-#include "mlx.h"
-#include "mlx_int.h"
-#include "libft.h"
-#include "get_next_line.h"
-#include "ft_printf.h"
+# define DEGREE 0.5235987755982989 // 30 degrees in radians
+//#define DEGREE 0.7853981633974483 // 45 degrees in radians
+//#define DEGREE 1.0471975511965976 // 60 degrees in radians
+//#define DEGREE 0.2617993877991494 // 15 degrees in radians
 
-#define SCREEN_WIDTH 800
-#define SCREEN_HEIGHT 800
+# define M_PI 3.14159265358979323846
+# define FDF_H
+# include <math.h>
+# include "mlx.h"
+# include "mlx_int.h"
+# include "libft.h"
+# include "get_next_line.h"
+# include "ft_printf.h"
+
+# define SCREEN_WIDTH 800
+# define SCREEN_HEIGHT 800
 
 typedef struct s_data
 {
@@ -48,19 +45,21 @@ typedef struct s_data
 
 typedef struct s_point
 {
-    int x;
-    int y;
-} t_point;
+	int		x;
+	int		y;
+}	t_point;
 
-typedef struct s_increment {
-    float x_increment;
-    float y_increment;
-} t_increment;
+typedef struct s_increment
+{
+	float	x_increment;
+	float	y_increment;
+}	t_increment;
 
-typedef struct s_draw{
-    float x_draw;
-    float y_draw;
-} t_draw;
+typedef struct s_draw
+{
+	float	x_draw;
+	float	y_draw;
+}	t_draw;
 
 t_data		*allocation_img(void);
 int			***map_allocation(int length, int height);
@@ -77,6 +76,7 @@ int			ft_strcmp(char *s1, char *s2);
 int			key_press(int keycode, t_data *img);
 int			base_value_central(int minimum);
 int			close_window(t_data *img);
+int			calculate_steps(int dx, int dy);
 float		***new_map_allocation(int height, int length);
 float		***two_d_map(int ***map, int height, int length);
 float		check_zoom(float ***map, int img_length,
@@ -98,9 +98,10 @@ void		read_and_fill_map(int fd, int ***map, int length, int height);
 void		process_line(char *str, int ***map, int y, int length);
 void		skip_comma(char *str, int *i);
 void		skip_to_next_value(char *str, int *i);
-void		draw_vertical_lines(t_data *img, float ***new_map, int x, int height);
-void		draw_horizontal_lines(t_data *img, float ***new_map, int y, int length);
-int	calculate_steps(int dx, int dy);
- t_increment	calculate_increments(int dx, int dy, int steps);
+void		draw_vertical_lines(t_data *img, float ***new_map,
+				int x, int height);
+void		draw_horizontal_lines(t_data *img, float ***new_map,
+				int y, int length);
+t_increment	calculate_increments(int dx, int dy, int steps);
 
 #endif

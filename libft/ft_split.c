@@ -6,7 +6,7 @@
 /*   By: lumiguel <lumiguel@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 17:40:17 by lumiguel          #+#    #+#             */
-/*   Updated: 2024/09/17 14:04:05 by lumiguel         ###   ########.fr       */
+/*   Updated: 2024/10/25 08:22:25 by lumiguel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,3 @@ char	**ft_split(char const *s, char c)
 // 	free(array);
 // 	return (0);
 // }
-

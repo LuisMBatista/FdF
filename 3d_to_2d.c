@@ -6,7 +6,7 @@
 /*   By: lumiguel <lumiguel@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 15:03:02 by lumiguel          #+#    #+#             */
-/*   Updated: 2024/10/24 15:09:23 by lumiguel         ###   ########.fr       */
+/*   Updated: 2024/10/25 08:11:51 by lumiguel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ float	***two_d_map(int ***map, int height, int lenght)
 		x = 0;
 		while (x < lenght)
 		{
-			new_map[y][x][0] = (map[y][x][0] * cos(0.5235987755982989))
-				- (map[y][x][1] * cos(0.5235987755982989));
-			new_map[y][x][1] = (map[y][x][0] * sin(0.5235987755982989))
-				+ (map[y][x][1] * sin(0.5235987755982989)) - (map[y][x][2]);
+			new_map[y][x][0] = (map[y][x][0] * cos(DEGREE))
+				- (map[y][x][1] * cos(DEGREE));
+			new_map[y][x][1] = (map[y][x][0] * sin(DEGREE))
+				+ (map[y][x][1] * sin(DEGREE)) - (map[y][x][2]);
 			x++;
 		}
 		y++;
