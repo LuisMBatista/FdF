@@ -24,11 +24,11 @@ LDFLAGS = $(MLX) $(FT_PRINTF) $(FT_GET_NEXT_LINE) $(FT_LIBFT)
 
 SRC_DIR = src
 OBJ_DIR = obj
-SRC = 3d_to_2d.c allocation_img.c allocations.c draw.c \
-      file_validation.c key_presses.c limits_checks.c main.c \
-      map_limits.c mlx_activity.c parcing_components.c parcing.c \
-      support.c zooms.c
-OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
+SRC = $(SRC_DIR)/3d_to_2d.c $(SRC_DIR)/allocation_img.c $(SRC_DIR)/allocations.c $(SRC_DIR)/draw.c \
+      $(SRC_DIR)/file_validation.c $(SRC_DIR)/key_presses.c $(SRC_DIR)/limits_checks.c $(SRC_DIR)/main.c \
+      $(SRC_DIR)/map_limits.c $(SRC_DIR)/mlx_activity.c $(SRC_DIR)/parcing_components.c $(SRC_DIR)/parcing.c \
+      $(SRC_DIR)/support.c $(SRC_DIR)/zooms.c
+OBJ := $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 # Rules
 all: $(NAME)
@@ -36,7 +36,7 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LDFLAGS)
 
-$(OBJ_DIR)/%.o: %.c
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) -o $@ -c $<
 
