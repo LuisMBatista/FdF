@@ -6,7 +6,7 @@
 /*   By: lumiguel <lumiguel@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 11:43:54 by lumiguel          #+#    #+#             */
-/*   Updated: 2024/10/24 15:02:03 by lumiguel         ###   ########.fr       */
+/*   Updated: 2024/10/30 15:19:13 by lumiguel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int argc, char**argv)
 
 	arg_validation(argc, argv);
 	img = allocation_img();
-	img->map_length = lenght_check(argv[1]);
+	img->map_length = lenght_check(argv[1], img);
 	img->map_height = height_check(argv[1]);
 	map = str_to_int(img->map_length, img->map_height, argv[1]);
 	new_map = two_d_map(map, img->map_height, img->map_length);

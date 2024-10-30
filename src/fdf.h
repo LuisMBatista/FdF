@@ -6,7 +6,7 @@
 /*   By: lumiguel <lumiguel@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 16:51:51 by lumiguel          #+#    #+#             */
-/*   Updated: 2024/10/25 08:20:24 by lumiguel         ###   ########.fr       */
+/*   Updated: 2024/10/30 15:19:45 by lumiguel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef struct s_draw
 t_data		*allocation_img(void);
 int			***map_allocation(int length, int height);
 int			ft_strlen3(const char *s);
-int			lenght_check(char *argv);
+int			lenght_check(char *argv , t_data *img);
 int			height_check(char *argv);
 int			***str_to_int(int length, int height, char *argv);
 int			check_lenght_min(float ***map, t_data *img);

@@ -6,7 +6,7 @@
 /*   By: lumiguel <lumiguel@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 10:49:15 by lumiguel          #+#    #+#             */
-/*   Updated: 2024/10/24 15:25:35 by lumiguel         ###   ########.fr       */
+/*   Updated: 2024/10/30 15:19:38 by lumiguel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ float	height_multiplier(float ***map, int map_height, t_data *img)
 	return (multiplier);
 }
 
-int	lenght_check(char *argv)
+int	lenght_check(char *argv, t_data *img)
 {
 	char	*str;
 	int		lenght;
@@ -61,6 +61,7 @@ int	lenght_check(char *argv)
 		{
 			if (lenght != ft_strlen3(str))
 			{
+				free(img);
 				free(str);
 				close(fd);
 				exit(ft_printf("Error: Length invalid\n"));

@@ -6,7 +6,7 @@
 /*   By: lumiguel <lumiguel@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 16:05:31 by lumiguel          #+#    #+#             */
-/*   Updated: 2024/10/24 15:20:35 by lumiguel         ###   ########.fr       */
+/*   Updated: 2024/10/28 16:21:59 by lumiguel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int	arg_validity(char *argv)
 	char	**file;
 	int		i;
 
+	if (!argv || !argv[0])
+		return (0);
 	file = ft_split(argv, '.');
 	i = 0;
 	while (file[i])
